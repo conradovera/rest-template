@@ -26,9 +26,12 @@ public class AccesoRecursoOrigenCruzado implements Filter {
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		HttpServletResponse httpResponse = (HttpServletResponse) response;
 
+		System.out.println("ENTRO A LOS FILTROS PARA EL CORS");
+		
 		/** para el cors **/
 		addHeadersCors(httpResponse);// para el cors
 		if (httpRequest.getMethod().equals("OPTIONS")) {
+		
 			return;
 		}
 
