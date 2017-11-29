@@ -60,18 +60,24 @@ public class ManejadorExcepcionImp implements ManejadorExcepcion{
 	//@Override
 	public Respuesta doResponse(Exception ex) {
 	
-		return this.obtenerExcepcion(ex,new ManejadorExcepcionDefault());
+		return this.obtenerExcepcion(ex, "", new ManejadorExcepcionDefault());
+		
+	}
+	
+	public Respuesta doResponse(Exception ex, String ipRequest){
+	
+		return this.obtenerExcepcion(ex, ipRequest, new ManejadorExcepcionDefault());
 		
 	}
 	
 	//@Override
-	public Respuesta doResponse(Exception ex, ManejadorExcepcionNegocio manejadorExcepcionNegocio) {
+	public Respuesta doResponse(Exception ex, String ipRequest, ManejadorExcepcionNegocio manejadorExcepcionNegocio) {
 	
-		return this.obtenerExcepcion(ex, manejadorExcepcionNegocio);
+		return this.obtenerExcepcion(ex, ipRequest,manejadorExcepcionNegocio);
 		
 	}
 		
-	private Respuesta obtenerExcepcion(Exception ex,ManejadorExcepcionNegocio manejadorExcepcionNegocio){
+	private Respuesta obtenerExcepcion(Exception ex, String ipRequest, ManejadorExcepcionNegocio manejadorExcepcionNegocio){
 		//log.info("===== Procesando la excepcion recibida =====> "+ex.getClass().getName());
 		
 		Integer status = 500;
@@ -102,19 +108,9 @@ public class ManejadorExcepcionImp implements ManejadorExcepcion{
 		//https://stackoverflow.com/a/4812589
 		StringWriter errors = new StringWriter();
 		ex.printStackTrace(new PrintWriter(errors));
-		res.setLog(errors.toString());
+		res.setLog((ipRequest.equals("localhost")||ipRequest.equals("127.0.0.1"))?errors.toString():"");
 		return res;
 	}
-
-	/*private Respuesta obtenerExcepcion(Exception ex, String ipRequest){
-		Respuesta  res;		
-		String logs = (ipRequest.equals("localhost")||ipRequest.equals("127.0.0.1"))?ex.getMessage():"";
-		
-		res = this.obtenerExcepcion(ex);
-		res.setLog(logs);
-		
-		return res;
-	}*/
 	
 	@SuppressWarnings("rawtypes")
 	public Map getExcepciones() {
@@ -125,6 +121,5 @@ public class ManejadorExcepcionImp implements ManejadorExcepcion{
 	public void setExcepciones(@SuppressWarnings("rawtypes") Map excepciones) {
 		this.excepciones = excepciones;
 	}
-
 
 }
