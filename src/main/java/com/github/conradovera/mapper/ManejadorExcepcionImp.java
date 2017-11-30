@@ -86,7 +86,7 @@ public class ManejadorExcepcionImp implements ManejadorExcepcion{
 		
 		
 		if(ex instanceof ExcepcionNegocio){
-			manejadorExcepcionNegocio.manejarExcepcionNegocio((ExcepcionNegocio) ex);
+			return manejadorExcepcionNegocio.manejarExcepcionNegocio((ExcepcionNegocio) ex);
 		//Recepciono y obtengo todas las excepciones que arrroja el jx-rs
 		}else if(ex instanceof WebApplicationException){
 					status = ((WebApplicationException)ex).getResponse().getStatus();
@@ -111,6 +111,9 @@ public class ManejadorExcepcionImp implements ManejadorExcepcion{
 		res.setLog((ipRequest.equals("localhost")||ipRequest.equals("127.0.0.1"))?errors.toString():"");
 		return res;
 	}
+	
+	
+	
 	
 	@SuppressWarnings("rawtypes")
 	public Map getExcepciones() {
